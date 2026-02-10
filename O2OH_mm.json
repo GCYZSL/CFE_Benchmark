@@ -1624,7 +1624,7 @@
       "images": []
     },
     "short_answer_value": [
-      "$\\frac{2(s+1)}{(s+5)^2}$"
+      "\\boxed{\\frac{2(s+1)}{(s+5)^2}} or \\frac{2(s-1)}{s^2+10s+29} or \\frac{-2(s+1)}{s^2+14s+29} or \\frac{-2(s-1)}{s^2+14s+25}"
     ],
     "short_answer_variable": [
       "G(s)"
