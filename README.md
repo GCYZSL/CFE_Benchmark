@@ -1,6 +1,8 @@
-# CFE-Bench: From Olympiad to Office Hours
+# CFE-Bench: Classroom Final Exam Benchmark
 
-CFE-Bench is a curated benchmark designed to stress-test foundation models on advanced STEM reasoning in realistic academic settings. It is constructed from **real course materials** (exams, homework) collected from publicly available course pages and instructor repositories, reviewed by domain experts.
+Large language models and vision–language models remain brittle on college-level STEM problems. Existing reasoning benchmarks often suffer from latent errors, ambiguous rubrics, subject narrowness, or saturation.
+
+**CFE-Bench** (**C**lassroom **F**inal **E**xam) is a text-only and multimodal reasoning benchmark built from authentic, repeatedly used university homework and exam problems sourced from instructor-maintained course materials and verified by professors. It contains **305 text-only** and **144 multimodal** samples spanning **20+ subjects** across physics, mathematics, and other STEM domains. CFE-Bench introduces a variable-based verification protocol.
 
 # Model Performance on CFE-Bench
 
