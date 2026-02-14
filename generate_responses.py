@@ -154,7 +154,7 @@ def save_json(filepath: str, data):
 
 def main():
     parser = argparse.ArgumentParser(description="Evaluate pass@k using API")
-    parser.add_argument('--input', type=str, default='O2OH_text.json',
+    parser.add_argument('--input', type=str, default='CFE_text.json',
                         help='Input JSON file path')
     parser.add_argument('--image_folder', type=str, default='./',
                         help='MM data image folder path')

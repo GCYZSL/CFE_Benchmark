@@ -1,12 +1,12 @@
-# O2OH-Bench: From Olympiad to Office Hours
+# CFE-Bench: From Olympiad to Office Hours
 
-O2OH-Bench is a curated benchmark designed to stress-test foundation models on advanced STEM reasoning in realistic academic settings. It is constructed from **real course materials** (exams, homework) collected from publicly available course pages and instructor repositories, reviewed by domain experts.
+CFE-Bench is a curated benchmark designed to stress-test foundation models on advanced STEM reasoning in realistic academic settings. It is constructed from **real course materials** (exams, homework) collected from publicly available course pages and instructor repositories, reviewed by domain experts.
 
 ## Setup
 
 ```bash
-conda create -n o2oh python=3.10
-conda activate o2oh
+conda create -n CFE python=3.10
+conda activate CFE
 pip install google-genai
 pip install tqdm
 pip install openai
@@ -14,12 +14,12 @@ pip install openai
 
 ## Dataset Structure
 
-O2OH-Bench contains two subsets:
+CFE-Bench contains two subsets:
 
 | Subset | File | # Questions | Description |
 |--------|------|-------------|-------------|
-| Text-only | `O2OH_text.json` | 305 | Pure text STEM problems |
-| Multimodal | `O2OH_mm.json` | 144 | Problems with diagrams, plots, symbolic notation |
+| Text-only | `CFE_text.json` | 305 | Pure text STEM problems |
+| Multimodal | `CFE_mm.json` | 144 | Problems with diagrams, plots, symbolic notation |
 
 ### Subjects
 
@@ -79,7 +79,7 @@ Evaluation is a two-step pipeline: **(1)** generate model responses, then **(2)*
 
 ```bash
 python generate_responses.py \
-  --input O2OH_text.json \
+  --input CFE_text.json \
   --test_provider gemini \
   --test_model gemini-3-flash-preview \
   --test_api_key YOUR_GEMINI_API_KEY \
@@ -91,7 +91,7 @@ python generate_responses.py \
 
 | Argument | Default | Description |
 |----------|---------|-------------|
-| `--input` | `O2OH_text.json` | Input benchmark JSON file (`O2OH_text.json` or `O2OH_mm.json`) |
+| `--input` | `CFE_text.json` | Input benchmark JSON file (`CFE_text.json` or `CFE_mm.json`) |
 | `--image_folder` | `./` | Path to the folder containing images (for multimodal subset) |
 | `--output` | auto-generated | Output JSON file path. If not set, defaults to `{input}_k_{k}_test_{model}.json` |
 | `--k` | `1` | Number of answers to generate per question (k in pass@k) |
@@ -117,8 +117,8 @@ The number of responses per question equals `k`.
 
 ```bash
 python evaluation.py \
-  --input O2OH_text_k_1_test_gemini-3-flash-preview.json \
-  --input_benchmark O2OH_text.json \
+  --input CFE_text_k_1_test_gemini-3-flash-preview.json \
+  --input_benchmark CFE_text.json \
   --judge_provider openai \
   --judge_model gpt-5-mini-2025-08-07 \
   --judge_api_key YOUR_OPENAI_API_KEY \
@@ -131,7 +131,7 @@ python evaluation.py \
 | Argument | Default | Description |
 |----------|---------|-------------|
 | `--input` | — | Generated responses JSON from Step 1 |
-| `--input_benchmark` | `O2OH_text.json` | Original benchmark JSON file (needed for ground-truth answers) |
+| `--input_benchmark` | `CFE_text.json` | Original benchmark JSON file (needed for ground-truth answers) |
 | `--image_folder` | `./` | Path to image folder (for multimodal) |
 | `--output` | auto-generated | Output JSON file path |
 | `--k` | `1` | k value for pass@k (must match Step 1) |
@@ -173,15 +173,15 @@ overall_question_accuracy: X.XX
 
 ## Evaluation Methodology: Variable-Based Verification
 
-O2OH-Bench defines ground-truth variables **V_gt = {(v₁, d₁, x₁), ..., (vₙ, dₙ, xₙ)}** where each tuple contains a variable name, semantic description, and target value.
+CFE-Bench defines ground-truth variables **V_gt = {(v₁, d₁, x₁), ..., (vₙ, dₙ, xₙ)}** where each tuple contains a variable name, semantic description, and target value.
 
 It extracts specific variable values from the model's response using the variable names and descriptions, then compares against V_gt. This achieves the highest accuracy and significantly reduces false positives by isolating specific variables.
 
 ## Citation
 
 ```bibtex
-@article{o2oh2025,
-  title={From Olympiad to Office Hours (O2OH-Bench)},
+@article{CFE2025,
+  title={From Olympiad to Office Hours (CFE-Bench)},
   year={2025}
 }
 ```
