@@ -70,6 +70,8 @@ We report two complementary accuracy metrics for both the text-only and multimod
 ## Setup
 
 ```bash
+git clone https://github.com/GCYZSL/CFE_Benchmark.git
+cd CFE_Benchmark
 conda create -n CFE python=3.10
 conda activate CFE
 pip install google-genai
