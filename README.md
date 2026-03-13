@@ -4,73 +4,9 @@ Large language models and vision–language models remain brittle on college-lev
 
 **CFE-Bench** (**C**lassroom **F**inal **E**xam) is a text-only and multimodal reasoning benchmark built from authentic, repeatedly used university homework and exam problems sourced from instructor-maintained course materials and verified by professors. It contains **305 text-only** and **144 multimodal** samples spanning **20+ subjects** across physics, mathematics, and other STEM domains. CFE-Bench introduces a variable-based verification protocol.
 
-# Model Performance on CFE-Bench
-
-We report two complementary accuracy metrics for both the text-only and multimodal subsets.
-
-- **Variable Accuracy**: For each question containing multiple annotated variables, we compute the proportion of correctly extracted variables, then average this proportion across all questions.
-- **Question Accuracy**: The proportion of questions for which all variables are correct.
-
-🟢 = Open-weights models · 🟠 = Proprietary models
-
-**Bold** = best in group · *Italic* = second-best in group
-
----
-
-## Text Subset (305)
-
-| Type | Model | Variable Accuracy | Question Accuracy |
-|:---:|---|:---:|:---:|
-| 🟢 | gemma-3-27b-it | 0.14 | 0.10 |
-| 🟢 | Ministral-3-14B-Reasoning | 0.18 | 0.13 |
-| 🟢 | Llama-4-Maverick | 0.25 | 0.20 |
-| 🟢 | gpt-oss-120b | 0.41 | 0.34 |
-| 🟢 | Qwen3-235B-Instruct | 0.37 | 0.32 |
-| 🟢 | Qwen3-235B-Thinking | 0.39 | 0.33 |
-| 🟢 | MiniMax-M2.1 | 0.33 | 0.28 |
-| 🟢 | Kimi-K2-Instruct | 0.25 | 0.19 |
-| 🟢 | Kimi-K2-Thinking | 0.46 | 0.39 |
-| 🟢 | **Kimi-K2.5** | **0.51** | **0.44** |
-| 🟢 | GLM-4.7 | 0.45 | 0.39 |
-| 🟢 | GLM-5 | 0.47 | 0.41 |
-| 🟢 | deepseek V3.2 (chat) | 0.48 | 0.42 |
-| 🟢 | *deepseek V3.2 (reasoner)* | *0.50* | *0.43* |
-| 🟠 | claude-sonnet-4.5 | 0.37 | 0.30 |
-| 🟠 | claude-opus-4.5 | 0.49 | 0.42 |
-| 🟠 | claude-opus-4.6 | 0.59 | 0.53 |
-| 🟠 | grok-4-0709 | 0.53 | 0.48 |
-| 🟠 | grok-4.1-fast-reasoning | 0.50 | 0.44 |
-| 🟠 | gpt-5.2 | 0.58 | 0.51 |
-| 🟠 | **gemini-3-flash-preview** | **0.66** | **0.59** |
-| 🟠 | *gemini-3-pro-preview* | *0.65* | *0.58* |
-
----
-
-## Multimodal Subset (144)
-
-| Type | Model | Variable Accuracy | Question Accuracy |
-|:---:|---|:---:|:---:|
-| 🟢 | gemma-3-27b-it | 0.07 | 0.03 |
-| 🟢 | *Llama-4-Maverick* | *0.16* | ***0.10*** |
-| 🟢 | InternVL3-78B-Instruct | 0.07 | 0.03 |
-| 🟢 | InternVL3.5-GPT-OSS-20B | 0.04 | 0.02 |
-| 🟢 | InternVL3.5-241B-A28B | 0.11 | 0.05 |
-| 🟢 | **Qwen3-VL-32B-Instruct** | **0.19** | **0.10** |
-| 🟢 | GLM-4.6v | 0.15 | *0.08* |
-| 🟠 | qvq-max | 0.10 | 0.06 |
-| 🟠 | claude-sonnet-4.5 | 0.27 | 0.19 |
-| 🟠 | claude-opus-4.5 | 0.38 | 0.31 |
-| 🟠 | claude-opus-4.6 | 0.44 | 0.37 |
-| 🟠 | grok-4-0709 | 0.36 | 0.29 |
-| 🟠 | grok-4.1-fast-reasoning | 0.33 | 0.26 |
-| 🟠 | gpt-5.2 | 0.51 | 0.44 |
-| 🟠 | **gemini-3-flash** | **0.59** | **0.51** |
-| 🟠 | *gemini-3-pro-preview* | *0.57* | *0.49* |
-
 ## Setup
 
 ```bash
-git clone https://github.com/GCYZSL/CFE_Benchmark.git
 cd CFE_Benchmark
 conda create -n CFE python=3.10
 conda activate CFE
@@ -243,16 +179,3 @@ overall_question_accuracy: X.XX
 CFE-Bench defines ground-truth variables **V_gt = {(v₁, d₁, x₁), ..., (vₙ, dₙ, xₙ)}** where each tuple contains a variable name, semantic description, and target value.
 
 It extracts specific variable values from the model's response using the variable names and descriptions, then compares against V_gt. This achieves the highest accuracy and significantly reduces false positives by isolating specific variables.
-
-## Citation
-
-```bibtex
-@article{CFE2025,
-  title={From Olympiad to Office Hours (CFE-Bench)},
-  year={2025}
-}
-```
-
-## Acknowledgments
-
-We thank the Analogy AI staffs. instructors and course staff who made their materials publicly available, enabling the construction of this benchmark.
