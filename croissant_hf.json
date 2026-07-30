@@ -1,0 +1,699 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "arrayShape": "cr:arrayShape",
+    "citeAs": "cr:citeAs",
+    "column": "cr:column",
+    "conformsTo": "dct:conformsTo",
+    "containedIn": "cr:containedIn",
+    "cr": "http://mlcommons.org/croissant/",
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
+    },
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "dct": "http://purl.org/dc/terms/",
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileProperty": "cr:fileProperty",
+    "fileObject": "cr:fileObject",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isArray": "cr:isArray",
+    "isLiveDataset": "cr:isLiveDataset",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "sc": "https://schema.org/",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform",
+    "rai": "http://mlcommons.org/croissant/RAI/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "equivalentProperty": "cr:equivalentProperty",
+    "examples": {
+      "@id": "cr:examples",
+      "@type": "@json"
+    },
+    "samplingRate": "cr:samplingRate"
+  },
+  "@type": "sc:Dataset",
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "repo",
+      "name": "repo",
+      "description": "The Hugging Face git repository.",
+      "contentUrl": "https://huggingface.co/datasets/analogyai/CFE_Benchmark/tree/refs%2Fconvert%2Fparquet",
+      "encodingFormat": "git+https",
+      "sha256": "https://github.com/mlcommons/croissant/issues/80"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-mm",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "mm/*/*.parquet"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-text",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "text/*/*.parquet"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "mm_splits/split_name"
+      },
+      "@id": "mm_splits",
+      "name": "mm_splits",
+      "description": "Splits for the mm config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "mm_splits/split_name",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "mm_splits/split_name": "mm"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "mm",
+      "description": "analogyai/CFE_Benchmark - 'mm' subset",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "mm/split",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mm"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "mm/(?:partial-)?(mm)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "mm_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mm/id",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mm"
+            },
+            "extract": {
+              "column": "id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mm/question",
+          "subField": [
+            {
+              "@type": "cr:Field",
+              "@id": "mm/question/text",
+              "dataType": "sc:Text",
+              "source": {
+                "fileSet": {
+                  "@id": "parquet-files-for-config-mm"
+                },
+                "extract": {
+                  "column": "question"
+                },
+                "transform": {
+                  "jsonPath": "text"
+                }
+              }
+            },
+            {
+              "@type": "cr:Field",
+              "@id": "mm/question/images",
+              "dataType": "sc:ImageObject",
+              "source": {
+                "fileSet": {
+                  "@id": "parquet-files-for-config-mm"
+                },
+                "extract": {
+                  "column": "question"
+                },
+                "transform": [
+                  {
+                    "jsonPath": "images"
+                  },
+                  {
+                    "jsonPath": "bytes"
+                  }
+                ]
+              },
+              "isArray": true,
+              "arrayShape": "-1"
+            }
+          ]
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mm/answer",
+          "subField": [
+            {
+              "@type": "cr:Field",
+              "@id": "mm/answer/text_0",
+              "dataType": "sc:Text",
+              "source": {
+                "fileSet": {
+                  "@id": "parquet-files-for-config-mm"
+                },
+                "extract": {
+                  "column": "answer"
+                },
+                "transform": {
+                  "jsonPath": "text"
+                }
+              }
+            },
+            {
+              "@type": "cr:Field",
+              "@id": "mm/answer/images_0",
+              "dataType": "sc:ImageObject",
+              "source": {
+                "fileSet": {
+                  "@id": "parquet-files-for-config-mm"
+                },
+                "extract": {
+                  "column": "answer"
+                },
+                "transform": [
+                  {
+                    "jsonPath": "images"
+                  },
+                  {
+                    "jsonPath": "bytes"
+                  }
+                ]
+              },
+              "isArray": true,
+              "arrayShape": "-1"
+            }
+          ]
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mm/short_answer_value",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mm"
+            },
+            "extract": {
+              "column": "short_answer_value"
+            }
+          },
+          "isArray": true,
+          "arrayShape": "-1"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mm/short_answer_variable",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mm"
+            },
+            "extract": {
+              "column": "short_answer_variable"
+            }
+          },
+          "isArray": true,
+          "arrayShape": "-1"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mm/short_answer_description",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mm"
+            },
+            "extract": {
+              "column": "short_answer_description"
+            }
+          },
+          "isArray": true,
+          "arrayShape": "-1"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mm/short_answer_type",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-mm"
+            },
+            "extract": {
+              "column": "short_answer_type"
+            }
+          },
+          "isArray": true,
+          "arrayShape": "-1"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "mm/reasoning_flow",
+          "subField": [
+            {
+              "@type": "cr:Field",
+              "@id": "mm/reasoning_flow/step_id",
+              "dataType": "cr:Int64",
+              "source": {
+                "fileSet": {
+                  "@id": "parquet-files-for-config-mm"
+                },
+                "extract": {
+                  "column": "reasoning_flow"
+                },
+                "transform": {
+                  "jsonPath": "step_id"
+                }
+              }
+            },
+            {
+              "@type": "cr:Field",
+              "@id": "mm/reasoning_flow/step",
+              "dataType": "sc:Text",
+              "source": {
+                "fileSet": {
+                  "@id": "parquet-files-for-config-mm"
+                },
+                "extract": {
+                  "column": "reasoning_flow"
+                },
+                "transform": {
+                  "jsonPath": "step"
+                }
+              }
+            },
+            {
+              "@type": "cr:Field",
+              "@id": "mm/reasoning_flow/verifiable_answer",
+              "dataType": "sc:Text",
+              "source": {
+                "fileSet": {
+                  "@id": "parquet-files-for-config-mm"
+                },
+                "extract": {
+                  "column": "reasoning_flow"
+                },
+                "transform": {
+                  "jsonPath": "verifiable_answer"
+                }
+              }
+            }
+          ],
+          "isArray": true,
+          "arrayShape": "-1"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "text_0_0_splits/split_name"
+      },
+      "@id": "text_0_0_splits",
+      "name": "text_0_0_splits",
+      "description": "Splits for the text_0_0 config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "text_0_0_splits/split_name",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "text_0_0_splits/split_name": "text"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "text_0_0",
+      "description": "analogyai/CFE_Benchmark - 'text' subset",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "text_0_0/split",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-text"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "text/(?:partial-)?(text)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "text_0_0_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "text_0_0/id",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-text"
+            },
+            "extract": {
+              "column": "id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "text_0_0/question",
+          "subField": [
+            {
+              "@type": "cr:Field",
+              "@id": "text_0_0/question/text_0_0_0",
+              "dataType": "sc:Text",
+              "source": {
+                "fileSet": {
+                  "@id": "parquet-files-for-config-text"
+                },
+                "extract": {
+                  "column": "question"
+                },
+                "transform": {
+                  "jsonPath": "text"
+                }
+              }
+            },
+            {
+              "@type": "cr:Field",
+              "@id": "text_0_0/question/images_0_0",
+              "dataType": "sc:Text",
+              "source": {
+                "fileSet": {
+                  "@id": "parquet-files-for-config-text"
+                },
+                "extract": {
+                  "column": "question"
+                },
+                "transform": {
+                  "jsonPath": "images"
+                }
+              },
+              "isArray": true,
+              "arrayShape": "-1"
+            }
+          ]
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "text_0_0/answer",
+          "subField": [
+            {
+              "@type": "cr:Field",
+              "@id": "text_0_0/answer/text_0_0_0_0",
+              "dataType": "sc:Text",
+              "source": {
+                "fileSet": {
+                  "@id": "parquet-files-for-config-text"
+                },
+                "extract": {
+                  "column": "answer"
+                },
+                "transform": {
+                  "jsonPath": "text"
+                }
+              }
+            },
+            {
+              "@type": "cr:Field",
+              "@id": "text_0_0/answer/images_0_0_0",
+              "dataType": "sc:Text",
+              "source": {
+                "fileSet": {
+                  "@id": "parquet-files-for-config-text"
+                },
+                "extract": {
+                  "column": "answer"
+                },
+                "transform": {
+                  "jsonPath": "images"
+                }
+              },
+              "isArray": true,
+              "arrayShape": "-1"
+            }
+          ]
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "text_0_0/short_answer_value",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-text"
+            },
+            "extract": {
+              "column": "short_answer_value"
+            }
+          },
+          "isArray": true,
+          "arrayShape": "-1"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "text_0_0/short_answer_variable",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-text"
+            },
+            "extract": {
+              "column": "short_answer_variable"
+            }
+          },
+          "isArray": true,
+          "arrayShape": "-1"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "text_0_0/short_answer_description",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-text"
+            },
+            "extract": {
+              "column": "short_answer_description"
+            }
+          },
+          "isArray": true,
+          "arrayShape": "-1"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "text_0_0/short_answer_type",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-text"
+            },
+            "extract": {
+              "column": "short_answer_type"
+            }
+          },
+          "isArray": true,
+          "arrayShape": "-1"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "text_0_0/reasoning_flow",
+          "subField": [
+            {
+              "@type": "cr:Field",
+              "@id": "text_0_0/reasoning_flow/step_id_0",
+              "dataType": "cr:Int64",
+              "source": {
+                "fileSet": {
+                  "@id": "parquet-files-for-config-text"
+                },
+                "extract": {
+                  "column": "reasoning_flow"
+                },
+                "transform": {
+                  "jsonPath": "step_id"
+                }
+              }
+            },
+            {
+              "@type": "cr:Field",
+              "@id": "text_0_0/reasoning_flow/step_0",
+              "dataType": "sc:Text",
+              "source": {
+                "fileSet": {
+                  "@id": "parquet-files-for-config-text"
+                },
+                "extract": {
+                  "column": "reasoning_flow"
+                },
+                "transform": {
+                  "jsonPath": "step"
+                }
+              }
+            },
+            {
+              "@type": "cr:Field",
+              "@id": "text_0_0/reasoning_flow/verifiable_answer_0",
+              "dataType": "sc:Text",
+              "source": {
+                "fileSet": {
+                  "@id": "parquet-files-for-config-text"
+                },
+                "extract": {
+                  "column": "reasoning_flow"
+                },
+                "transform": {
+                  "jsonPath": "verifiable_answer"
+                }
+              }
+            }
+          ],
+          "isArray": true,
+          "arrayShape": "-1"
+        }
+      ]
+    }
+  ],
+  "conformsTo": "http://mlcommons.org/croissant/1.1",
+  "name": "CFE_Benchmark",
+  "description": "\n\t\n\t\t\n\t\tCFE: Classroom Final Exam\n\t\n\nCFE (Classroom Final Exam) is a multimodal benchmark for evaluating the reasoning capabilities of large language models across more than 20 STEM domains. CFE is curated from repeatedly used, authentic university homework and exam problems, together with reference solutions provided by course instructors.\n📄 Paper: arXiv:2602.19517\n\n\t\n\t\t\n\t\n\t\n\t\tBenchmark Overview\n\t\n\nCFE presents a significant challenge even for frontier models: the newly released… See the full description on the dataset page: https://huggingface.co/datasets/analogyai/CFE_Benchmark.",
+  "alternateName": [
+    "analogyai/CFE_Benchmark"
+  ],
+  "creator": [
+    {
+      "@type": "Organization",
+      "name": "Analogy AI, Inc.",
+      "url": "https://huggingface.co/analogyai"
+    },
+    {
+      "@type": "sc:Person",
+      "name": "Chongyang Gao"
+    },
+    {
+      "@type": "sc:Person",
+      "name": "Diji Yang"
+    },
+    {
+      "@type": "sc:Person",
+      "name": "Shuyan Zhou"
+    },
+    {
+      "@type": "sc:Person",
+      "name": "Xichen Yan"
+    },
+    {
+      "@type": "sc:Person",
+      "name": "Luchuan Song"
+    },
+    {
+      "@type": "sc:Person",
+      "name": "Shuo Li"
+    },
+    {
+      "@type": "sc:Person",
+      "name": "Kezhen Chen"
+    }
+  ],
+  "keywords": [
+    "< 1K",
+    "parquet",
+    "optimized-parquet",
+    "Image",
+    "Text",
+    "Datasets",
+    "pandas",
+    "Polars",
+    "Croissant",
+    "arxiv:2602.19517",
+    "🇺🇸 Region: US",
+    "arxiv:2602.19517",
+    "arxiv.org/abs/2602.19517"
+  ],
+  "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+  "url": "https://huggingface.co/datasets/analogyai/CFE_Benchmark",
+  "citeAs": "@misc{gao2026classroomfinalexaminstructortested, title={Classroom Final Exam: An Instructor-Tested Reasoning Benchmark}, author={Chongyang Gao and Diji Yang and Shuyan Zhou and Xichen Yan and Luchuan Song and Shuo Li and Kezhen Chen}, year={2026}, eprint={2602.19517}, archivePrefix={arXiv}, primaryClass={cs.AI}}",
+  "version": "1.0.0",
+  "datePublished": "2026-02-14",
+  "isLiveDataset": false,
+  "sameAs": "https://github.com/GCYZSL/CFE_Benchmark",
+  "rai:dataCollection": "Source documents were harvested by an automated crawler that navigated from instructor and department landing pages to linked problem-set, exam and solution PDFs on publicly reachable web pages. No login, paywall or institutional credential was used, and no non-public course-management system was accessed. Each retained document's landing URL, file URL and click trajectory were recorded; the recovered per-item mapping is shipped as PROVENANCE.csv.",
+  "rai:dataCollectionType": [
+    "Web crawl of publicly posted course materials",
+    "Machine-generated annotation with human verification"
+  ],
+  "rai:dataCollectionRawData": "449 released items trace to 54 distinct source domains. The single largest source is MIT OpenCourseWare (228 items, 50.8%); the remainder are individual university course pages, departmental qualifying-exam archives and physics/mathematics olympiad papers. Raw crawled PDFs are not redistributed; only the extracted problem text, extracted figure crops and the annotations are released.",
+  "rai:dataCollectionTimeframe": "2025-10 to 2026-02 (crawl and annotation)",
+  "rai:dataCollectionMissingData": "No field is missing in the released records: every item carries a question, a worked solution, at least one annotated target variable and a reasoning flow. Items for which a solution could not be located, or whose ground truth could not be recovered from it, were dropped during construction rather than released with gaps. Provenance is complete: all 449 released ids resolve to a recorded source URL.",
+  "rai:dataImputationProtocol": "No values are imputed. Items whose ground-truth answer could not be recovered from the source solution were dropped rather than filled in.",
+  "rai:dataPreprocessingProtocol": "PDFs were OCR'd to text and LaTeX; figures were cropped to per-item image files; units and symbols were standardised; items were filtered for difficulty against reference models; target variables, their semantic descriptions, their types (numeric / formula / other) and the ordered reasoning flow were annotated.",
+  "rai:dataManipulationProtocol": "Problem text is reproduced substantially as published, with OCR correction and unit/symbol normalisation. Figures are cropped from the source document and are otherwise unmodified.",
+  "rai:dataAnnotationProtocol": "Target variables, descriptions, types and reasoning flows were drafted with LLM assistance and then checked by the authors against the source solution; a subject-matter pass by instructors covered correctness and answer leakage. Verification at evaluation time compares extracted per-variable values to the annotated targets.",
+  "rai:dataAnnotationPlatform": "Internal scripts; no crowdsourcing platform was used.",
+  "rai:dataAnnotationAnalysis": "Annotations were audited for ground-truth correctness and for leakage of the answer into the question text. Known residual defects are listed under rai:dataLimitations.",
+  "rai:annotationsPerItem": "773 target-variable annotations and 4964 reasoning steps across 449 items — a mean of 1.72 target variables and 11.06 reasoning steps per item. Every item carries at least one target variable and one reasoning flow.",
+  "rai:annotatorDemographics": "Annotations were produced and checked by the seven authors, who hold graduate degrees in computer science and related quantitative fields, together with a subject-matter review pass by university instructors in the relevant disciplines. No crowdworkers were engaged, so no crowdworker demographic or compensation data applies. Individual annotator demographics are not collected or released.",
+  "rai:machineAnnotationTools": "Draft target variables, semantic descriptions, answer types and reasoning flows were generated with commercial large language models and were then verified against the source solution by the authors before release. Machine output was never accepted without human confirmation. The evaluation pipeline additionally uses an LLM judge (default gpt-5-mini-2025-08-07) at scoring time; that judge reads the released annotations and does not create them.",
+  "rai:dataUseCases": "Intended for evaluating and diagnosing multi-step reasoning in language and vision-language models on college-level STEM problems. Not intended as training data, not intended for assessing human students, and not intended for any educational-placement or credentialing decision about a person.",
+  "rai:dataBiases": "Subject coverage is concentrated in physics and mathematics (Physics 253, Math 141, Other 25, Finance 13, Biology 7, Chemistry 7, Economics 2, Medical 1). Source institutions are predominantly North American and European, and all released items are in English, so the benchmark under-represents other curricular traditions, notations and languages. Because half the corpus comes from a single publisher (MIT OpenCourseWare), house style in problem phrasing is over-represented relative to the field. Difficulty filtering was performed against reference models, which can bias the retained set toward problems those particular models find hard.",
+  "rai:dataLimitations": "(1) CFE_mm.json contains 144 rows but 139 distinct problem ids: 5 problems are duplicated verbatim, so multimodal metrics double-count them. (2) Ground truth was recovered from published solutions and, for a small number of items, remains subject to residual OCR and transcription error. (3) Problem text and figures are taken from publicly posted material and may appear in model pretraining corpora; contamination cannot be excluded. (4) Licensing is heterogeneous — see rai:dataReleaseMaintenancePlan.",
+  "rai:dataSocialImpact": "The benchmark reproduces instructors' assessment material. Releasing worked solutions alongside problems can reduce the value of these items for live classroom assessment; instructors who wish their material withdrawn are directed to the takedown route below. The benchmark measures machine reasoning only and carries no claim about human ability.",
+  "rai:personalSensitiveInformation": "None known. The released JSON files were scanned for e-mail addresses, local filesystem paths and embedded URLs: zero e-mail addresses and zero filesystem paths appear in either file. Upstream crawl metadata contained annotator-machine local paths carrying a personal name and is deliberately not shipped; PROVENANCE.csv exposes only public source URLs. Of the 173 figures, most are line art (schematics, plots, circuit and free-body diagrams); a minority are photographs of laboratory apparatus, equipment and outdoor scenes taken from experimental-physics problems. Figures were screened by tone histogram and the most photographic ones inspected manually; no depiction of an identifiable person was found, though the manual pass was a sample rather than a census. Instructor names may appear incidentally in problem text where the source document carried them, and remain information those instructors published themselves. Note that photographs embedded in a source problem may be third-party images whose copyright is separate from that of the course page.",
+  "rai:dataReleaseMaintenancePlan": "Of 449 items, 228 (50.8%) derive from MIT OpenCourseWare and are licensed CC BY-NC-SA 4.0; the ShareAlike term propagates to this derivative, so the dataset as a whole is released under CC BY-NC-SA 4.0. The remaining 221 items come from sources that state no licence and therefore remain under their authors' default copyright; they are redistributed for non-commercial academic research with per-item attribution in PROVENANCE.csv. Any rights holder may request removal via a GitHub issue on the release repository; removals will be applied in a versioned re-release with the withdrawn ids listed in the changelog. Evaluation code is released under the same repository."
+}

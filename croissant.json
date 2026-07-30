@@ -1,0 +1,608 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "citeAs": "cr:citeAs",
+    "column": "cr:column",
+    "conformsTo": "dct:conformsTo",
+    "cr": "http://mlcommons.org/croissant/",
+    "rai": "http://mlcommons.org/croissant/RAI/",
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
+    },
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "dct": "http://purl.org/dc/terms/",
+    "equivalentProperty": "cr:equivalentProperty",
+    "examples": {
+      "@id": "cr:examples",
+      "@type": "@json"
+    },
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileObject": "cr:fileObject",
+    "fileProperty": "cr:fileProperty",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isLiveDataset": "cr:isLiveDataset",
+    "isArray": "cr:isArray",
+    "arrayShape": "cr:arrayShape",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "samplingRate": "cr:samplingRate",
+    "sc": "https://schema.org/",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform"
+  },
+  "@type": "sc:Dataset",
+  "conformsTo": "http://mlcommons.org/croissant/1.1",
+  "name": "CFE-Bench",
+  "alternateName": "Classroom Final Exam Benchmark",
+  "description": "CFE-Bench (Classroom Final Exam) is a text-only and multimodal reasoning benchmark of 449 college-level STEM problems (305 text-only, 144 multimodal rows) drawn from publicly posted university course materials, qualifying exams and olympiad papers. Each item carries annotated target variables (name, semantic description, type, value) and an ordered reasoning flow, supporting variable-based verification rather than final-answer string matching.",
+  "url": "https://github.com/GCYZSL/CFE_Benchmark",
+  "version": "1.0.0",
+  "datePublished": "2026-02-14",
+  "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+  "creator": [
+    {
+      "@type": "sc:Person",
+      "name": "Chongyang Gao"
+    },
+    {
+      "@type": "sc:Person",
+      "name": "Diji Yang"
+    },
+    {
+      "@type": "sc:Person",
+      "name": "Shuyan Zhou"
+    },
+    {
+      "@type": "sc:Person",
+      "name": "Xichen Yan"
+    },
+    {
+      "@type": "sc:Person",
+      "name": "Luchuan Song"
+    },
+    {
+      "@type": "sc:Person",
+      "name": "Shuo Li"
+    },
+    {
+      "@type": "sc:Person",
+      "name": "Kezhen Chen"
+    }
+  ],
+  "keywords": [
+    "reasoning",
+    "STEM",
+    "physics",
+    "mathematics",
+    "multimodal",
+    "benchmark",
+    "LLM evaluation"
+  ],
+  "citeAs": "@misc{gao2026classroomfinalexaminstructortested, title={Classroom Final Exam: An Instructor-Tested Reasoning Benchmark}, author={Chongyang Gao and Diji Yang and Shuyan Zhou and Xichen Yan and Luchuan Song and Shuo Li and Kezhen Chen}, year={2026}, eprint={2602.19517}, archivePrefix={arXiv}, primaryClass={cs.AI}}",
+  "isLiveDataset": false,
+  "rai:dataCollection": "Source documents were harvested by an automated crawler that navigated from instructor and department landing pages to linked problem-set, exam and solution PDFs on publicly reachable web pages. No login, paywall or institutional credential was used, and no non-public course-management system was accessed. Each retained document's landing URL, file URL and click trajectory were recorded; the recovered per-item mapping is shipped as PROVENANCE.csv.",
+  "rai:dataCollectionType": [
+    "Web crawl of publicly posted course materials",
+    "Machine-generated annotation with human verification"
+  ],
+  "rai:dataCollectionRawData": "449 released items trace to 54 distinct source domains. The single largest source is MIT OpenCourseWare (228 items, 50.8%); the remainder are individual university course pages, departmental qualifying-exam archives and physics/mathematics olympiad papers. Raw crawled PDFs are not redistributed; only the extracted problem text, extracted figure crops and the annotations are released.",
+  "rai:dataCollectionTimeframe": "2025-10 to 2026-02 (crawl and annotation)",
+  "rai:dataCollectionMissingData": "No field is missing in the released records: every item carries a question, a worked solution, at least one annotated target variable and a reasoning flow. Items for which a solution could not be located, or whose ground truth could not be recovered from it, were dropped during construction rather than released with gaps. Provenance is complete: all 449 released ids resolve to a recorded source URL.",
+  "rai:dataImputationProtocol": "No values are imputed. Items whose ground-truth answer could not be recovered from the source solution were dropped rather than filled in.",
+  "rai:dataPreprocessingProtocol": "PDFs were OCR'd to text and LaTeX; figures were cropped to per-item image files; units and symbols were standardised; items were filtered for difficulty against reference models; target variables, their semantic descriptions, their types (numeric / formula / other) and the ordered reasoning flow were annotated.",
+  "rai:dataManipulationProtocol": "Problem text is reproduced substantially as published, with OCR correction and unit/symbol normalisation. Figures are cropped from the source document and are otherwise unmodified.",
+  "rai:dataAnnotationProtocol": "Target variables, descriptions, types and reasoning flows were drafted with LLM assistance and then checked by the authors against the source solution; a subject-matter pass by instructors covered correctness and answer leakage. Verification at evaluation time compares extracted per-variable values to the annotated targets.",
+  "rai:dataAnnotationPlatform": "Internal scripts; no crowdsourcing platform was used.",
+  "rai:dataAnnotationAnalysis": "Annotations were audited for ground-truth correctness and for leakage of the answer into the question text. Known residual defects are listed under rai:dataLimitations.",
+  "rai:annotationsPerItem": "773 target-variable annotations and 4964 reasoning steps across 449 items — a mean of 1.72 target variables and 11.06 reasoning steps per item. Every item carries at least one target variable and one reasoning flow.",
+  "rai:annotatorDemographics": "Annotations were produced and checked by the seven authors, who hold graduate degrees in computer science and related quantitative fields, together with a subject-matter review pass by university instructors in the relevant disciplines. No crowdworkers were engaged, so no crowdworker demographic or compensation data applies. Individual annotator demographics are not collected or released.",
+  "rai:machineAnnotationTools": "Draft target variables, semantic descriptions, answer types and reasoning flows were generated with commercial large language models and were then verified against the source solution by the authors before release. Machine output was never accepted without human confirmation. The evaluation pipeline additionally uses an LLM judge (default gpt-5-mini-2025-08-07) at scoring time; that judge reads the released annotations and does not create them.",
+  "rai:dataUseCases": "Intended for evaluating and diagnosing multi-step reasoning in language and vision-language models on college-level STEM problems. Not intended as training data, not intended for assessing human students, and not intended for any educational-placement or credentialing decision about a person.",
+  "rai:dataBiases": "Subject coverage is concentrated in physics and mathematics (Physics 253, Math 141, Other 25, Finance 13, Biology 7, Chemistry 7, Economics 2, Medical 1). Source institutions are predominantly North American and European, and all released items are in English, so the benchmark under-represents other curricular traditions, notations and languages. Because half the corpus comes from a single publisher (MIT OpenCourseWare), house style in problem phrasing is over-represented relative to the field. Difficulty filtering was performed against reference models, which can bias the retained set toward problems those particular models find hard.",
+  "rai:dataLimitations": "(1) CFE_mm.json contains 144 rows but 139 distinct problem ids: 5 problems are duplicated verbatim, so multimodal metrics double-count them. (2) Ground truth was recovered from published solutions and, for a small number of items, remains subject to residual OCR and transcription error. (3) Problem text and figures are taken from publicly posted material and may appear in model pretraining corpora; contamination cannot be excluded. (4) Licensing is heterogeneous — see rai:dataReleaseMaintenancePlan.",
+  "rai:dataSocialImpact": "The benchmark reproduces instructors' assessment material. Releasing worked solutions alongside problems can reduce the value of these items for live classroom assessment; instructors who wish their material withdrawn are directed to the takedown route below. The benchmark measures machine reasoning only and carries no claim about human ability.",
+  "rai:personalSensitiveInformation": "None known. The released JSON files were scanned for e-mail addresses, local filesystem paths and embedded URLs: zero e-mail addresses and zero filesystem paths appear in either file. Upstream crawl metadata contained annotator-machine local paths carrying a personal name and is deliberately not shipped; PROVENANCE.csv exposes only public source URLs. Of the 173 figures, most are line art (schematics, plots, circuit and free-body diagrams); a minority are photographs of laboratory apparatus, equipment and outdoor scenes taken from experimental-physics problems. Figures were screened by tone histogram and the most photographic ones inspected manually; no depiction of an identifiable person was found, though the manual pass was a sample rather than a census. Instructor names may appear incidentally in problem text where the source document carried them, and remain information those instructors published themselves. Note that photographs embedded in a source problem may be third-party images whose copyright is separate from that of the course page.",
+  "rai:dataReleaseMaintenancePlan": "Of 449 items, 228 (50.8%) derive from MIT OpenCourseWare and are licensed CC BY-NC-SA 4.0; the ShareAlike term propagates to this derivative, so the dataset as a whole is released under CC BY-NC-SA 4.0. The remaining 221 items come from sources that state no licence and therefore remain under their authors' default copyright; they are redistributed for non-commercial academic research with per-item attribution in PROVENANCE.csv. Any rights holder may request removal via a GitHub issue on the release repository; removals will be applied in a versioned re-release with the withdrawn ids listed in the changelog. Evaluation code is released under the same repository.",
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "cfe-text-json",
+      "name": "CFE_text.json",
+      "description": "Text-only subset (305 items).",
+      "contentUrl": "CFE_text.json",
+      "encodingFormat": "application/json",
+      "sha256": "e036a617fd5e36a55bb3375ef1890386f6618dc8281da6773036922164d1f1b8",
+      "contentSize": "1861711 B"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "cfe-mm-json",
+      "name": "CFE_mm.json",
+      "description": "Multimodal subset (144 rows, 139 distinct ids).",
+      "contentUrl": "CFE_mm.json",
+      "encodingFormat": "application/json",
+      "sha256": "a8cf51d184f5ece501f3418430e38e8ca4d47392b9bafbbdeaa68b4ee4ad8446",
+      "contentSize": "1035100 B"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "provenance-csv",
+      "name": "PROVENANCE.csv",
+      "description": "Per-item source URL, source domain and licence status.",
+      "contentUrl": "PROVENANCE.csv",
+      "encodingFormat": "text/csv",
+      "sha256": "c1db096adb8cbb1140c6e0804c142466a938200b3c05967d9fcd527f524f2b9f",
+      "contentSize": "101729 B"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "sources-csv",
+      "name": "SOURCES.csv",
+      "description": "Per-domain roll-up over the 54 source domains.",
+      "contentUrl": "SOURCES.csv",
+      "encodingFormat": "text/csv",
+      "sha256": "8584d1771ae57513c52964cbcac380ae7d5bad8dec9a636b7f1add75c6d4a3b6",
+      "contentSize": "3265 B"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "image-files",
+      "name": "images",
+      "description": "173 figure crops referenced by the multimodal subset.",
+      "encodingFormat": "image/jpeg",
+      "includes": "images/*/*.jpg"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "@id": "cfe-text",
+      "name": "cfe-text",
+      "description": "Text-only problems (305 records), one row per item.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "cfe-text/id",
+          "name": "id",
+          "description": "SHA-256 item identifier. Joins to provenance/id, annotations/id and reasoning-flow/id.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "cfe-text-json"
+            },
+            "extract": {
+              "jsonPath": "$[*].id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cfe-text/question_text",
+          "name": "question_text",
+          "description": "Problem statement as published.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "cfe-text-json"
+            },
+            "extract": {
+              "jsonPath": "$[*].question.text"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cfe-text/answer_text",
+          "name": "answer_text",
+          "description": "Ground-truth worked solution.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "cfe-text-json"
+            },
+            "extract": {
+              "jsonPath": "$[*].answer.text"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cfe-text/short_answer_variable",
+          "name": "short_answer_variable",
+          "description": "Names of the annotated target variables.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "cfe-text-json"
+            },
+            "extract": {
+              "jsonPath": "$[*].short_answer_variable"
+            }
+          },
+          "isArray": true,
+          "arrayShape": "-1"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cfe-text/short_answer_description",
+          "name": "short_answer_description",
+          "description": "Semantic description guiding extraction of each variable.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "cfe-text-json"
+            },
+            "extract": {
+              "jsonPath": "$[*].short_answer_description"
+            }
+          },
+          "isArray": true,
+          "arrayShape": "-1"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cfe-text/short_answer_type",
+          "name": "short_answer_type",
+          "description": "Type of each target: numeric, formula or other.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "cfe-text-json"
+            },
+            "extract": {
+              "jsonPath": "$[*].short_answer_type"
+            }
+          },
+          "isArray": true,
+          "arrayShape": "-1"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cfe-text/short_answer_value",
+          "name": "short_answer_value",
+          "description": "Ground-truth value of each target variable.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "cfe-text-json"
+            },
+            "extract": {
+              "jsonPath": "$[*].short_answer_value"
+            }
+          },
+          "isArray": true,
+          "arrayShape": "-1"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "cfe-mm",
+      "name": "cfe-mm",
+      "description": "Multimodal problems (144 rows, 139 distinct ids), one row per item.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "cfe-mm/id",
+          "name": "id",
+          "description": "SHA-256 item identifier. Not unique: 5 ids repeat, see rai:dataLimitations.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "cfe-mm-json"
+            },
+            "extract": {
+              "jsonPath": "$[*].id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cfe-mm/question_text",
+          "name": "question_text",
+          "description": "Problem statement; <image> marks figure positions.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "cfe-mm-json"
+            },
+            "extract": {
+              "jsonPath": "$[*].question.text"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cfe-mm/answer_text",
+          "name": "answer_text",
+          "description": "Ground-truth worked solution.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "cfe-mm-json"
+            },
+            "extract": {
+              "jsonPath": "$[*].answer.text"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cfe-mm/question_images",
+          "name": "question_images",
+          "description": "Relative paths of the figure crops for this problem.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "cfe-mm-json"
+            },
+            "extract": {
+              "jsonPath": "$[*].question.images"
+            }
+          },
+          "isArray": true,
+          "arrayShape": "-1"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cfe-mm/short_answer_variable",
+          "name": "short_answer_variable",
+          "description": "Names of the annotated target variables.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "cfe-mm-json"
+            },
+            "extract": {
+              "jsonPath": "$[*].short_answer_variable"
+            }
+          },
+          "isArray": true,
+          "arrayShape": "-1"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cfe-mm/short_answer_description",
+          "name": "short_answer_description",
+          "description": "Semantic description guiding extraction of each variable.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "cfe-mm-json"
+            },
+            "extract": {
+              "jsonPath": "$[*].short_answer_description"
+            }
+          },
+          "isArray": true,
+          "arrayShape": "-1"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cfe-mm/short_answer_type",
+          "name": "short_answer_type",
+          "description": "Type of each target: numeric, formula or other.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "cfe-mm-json"
+            },
+            "extract": {
+              "jsonPath": "$[*].short_answer_type"
+            }
+          },
+          "isArray": true,
+          "arrayShape": "-1"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "cfe-mm/short_answer_value",
+          "name": "short_answer_value",
+          "description": "Ground-truth value of each target variable.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "cfe-mm-json"
+            },
+            "extract": {
+              "jsonPath": "$[*].short_answer_value"
+            }
+          },
+          "isArray": true,
+          "arrayShape": "-1"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "provenance",
+      "name": "provenance",
+      "description": "Source and licence status of every released item; 449 rows.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "provenance/id",
+          "name": "id",
+          "description": "Item id; joins to cfe-text/id and cfe-mm/id.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "provenance-csv"
+            },
+            "extract": {
+              "column": "id"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "provenance/subset",
+          "name": "subset",
+          "description": "text or mm.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "provenance-csv"
+            },
+            "extract": {
+              "column": "subset"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "provenance/source_url",
+          "name": "source_url",
+          "description": "Public URL the item was harvested from.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "provenance-csv"
+            },
+            "extract": {
+              "column": "source_url"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "provenance/source_domain",
+          "name": "source_domain",
+          "description": "Host of the source URL.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "provenance-csv"
+            },
+            "extract": {
+              "column": "source_domain"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "provenance/crawl_type",
+          "name": "crawl_type",
+          "description": "Crawler route: 'qa' (problem/solution page) or 'book' (PDF).",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "provenance-csv"
+            },
+            "extract": {
+              "column": "crawl_type"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "provenance/source_description",
+          "name": "source_description",
+          "description": "Title or description recorded for the source document.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "provenance-csv"
+            },
+            "extract": {
+              "column": "source_description"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "provenance/topic",
+          "name": "topic",
+          "description": "Coarse subject label.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "provenance-csv"
+            },
+            "extract": {
+              "column": "topic"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "provenance/question_type",
+          "name": "question_type",
+          "description": "Coarse problem-type label.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "provenance-csv"
+            },
+            "extract": {
+              "column": "question_type"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "provenance/license",
+          "name": "license",
+          "description": "Licence of the source material, or 'no licence stated'.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "provenance-csv"
+            },
+            "extract": {
+              "column": "license"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "provenance/license_status",
+          "name": "license_status",
+          "description": "'verified' if checked against the publisher's own terms page.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "provenance-csv"
+            },
+            "extract": {
+              "column": "license_status"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "provenance/license_terms_url",
+          "name": "license_terms_url",
+          "description": "Terms page consulted, where one exists.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "provenance-csv"
+            },
+            "extract": {
+              "column": "license_terms_url"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
