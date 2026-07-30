@@ -149,8 +149,8 @@
       "description": "Per-item source URL, source domain and licence status.",
       "contentUrl": "PROVENANCE.csv",
       "encodingFormat": "text/csv",
-      "sha256": "c1db096adb8cbb1140c6e0804c142466a938200b3c05967d9fcd527f524f2b9f",
-      "contentSize": "101729 B"
+      "sha256": "6397dca6f36d7f9b8ea6a548fd488e1f99b39c4a5268465b0e275c5ad0b2740f",
+      "contentSize": "100499 B"
     },
     {
       "@type": "cr:FileObject",
@@ -494,21 +494,6 @@
             },
             "extract": {
               "column": "source_domain"
-            }
-          }
-        },
-        {
-          "@type": "cr:Field",
-          "@id": "provenance/crawl_type",
-          "name": "crawl_type",
-          "description": "Crawler route: 'qa' (problem/solution page) or 'book' (PDF).",
-          "dataType": "sc:Text",
-          "source": {
-            "fileObject": {
-              "@id": "provenance-csv"
-            },
-            "extract": {
-              "column": "crawl_type"
             }
           }
         },
