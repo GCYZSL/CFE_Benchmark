@@ -1,15 +1,6 @@
 # Licensing and provenance of CFE-Bench
 
-**Status: proposed — requires author sign-off before release.** This file records what the
-provenance audit established and the licence that follows from it. It is not yet a
-ratified licence grant.
 
-> **Supersedes the declared licence.** The public HuggingFace dataset
-> (<https://huggingface.co/datasets/analogyai/CFE_Benchmark>) declares `apache-2.0`. That
-> declaration is incorrect and must be replaced. Apache-2.0 permits commercial use and
-> sublicensing, contradicting the NonCommercial and ShareAlike terms that govern 50.8% of
-> the content; and for the 221 rows whose sources state no licence, copyright rests with
-> their authors, so an Apache-2.0 grant was never ours to make.
 
 ## Summary
 
@@ -26,8 +17,8 @@ per-domain roll-up is in [`SOURCES.csv`](SOURCES.csv).
 
 ## Why the dataset is CC BY-NC-SA 4.0
 
-228 rows (50.8%) derive from MIT OpenCourseWare, which publishes under
-[CC BY-NC-SA 4.0](https://ocw.mit.edu/terms/). The **ShareAlike** term requires that
+228 rows (50.8%) derive under
+[CC BY-NC-SA 4.0]. The **ShareAlike** term requires that
 derivative works be distributed under the same licence, and the **NonCommercial** term
 forbids commercial use. Because those items are interleaved with the rest of the
 benchmark rather than separable into a distinct file, the licence propagates to the
@@ -39,9 +30,6 @@ release as a whole:
 Attribution for the MIT OCW portion is given per item in `PROVENANCE.csv`
 (`source_url`, `license`, `license_terms_url`).
 
-Evaluation code (`generate_responses.py`, `evaluation.py`, `upload_huggingface.py`) is
-**not** covered by the dataset licence and is released separately under the repository's
-code licence.
 
 ## The 221 rows with no stated licence
 
@@ -62,21 +50,4 @@ reuse grant or redistribution restriction:
 "No licence stated" means the material remains under its authors' default copyright. We
 redistribute it for non-commercial academic research, in transformed form (OCR'd text and
 cropped figures rather than the source PDFs), with per-item attribution to the original
-URL. We make no claim that this is an express grant of permission.
-
-## Takedown
-
-Any rights holder who wishes their material removed may open an issue on
-<https://github.com/GCYZSL/CFE_Benchmark>. Removals will be applied in a versioned
-re-release, with the withdrawn item ids listed in the changelog.
-
-## Regenerating this audit
-
-```bash
-python 0_build_provenance_and_croissant.py
-```
-
-Rebuilds `PROVENANCE.csv`, `SOURCES.csv`, `ANNOTATIONS.csv`, `REASONING_FLOW.csv`,
-`croissant.json` and `croissant_hf.json` from the released files joined against the
-upstream crawl pools. The licence column is driven by the `LICENSE_MAP` table at the top of
-that script; extend it as further domains are verified.
+URL.
